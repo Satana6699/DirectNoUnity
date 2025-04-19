@@ -1,0 +1,6 @@
+D:\Work\DotNet\DirectECS\Settings\bin\Debug\Settings.dll
+D:\Work\DotNet\DirectECS\Settings\bin\Debug\Settings.pdb
+D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.csproj.AssemblyReference.cache
+D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.csproj.CoreCompileInputs.cache
+D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.dll
+D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.pdb

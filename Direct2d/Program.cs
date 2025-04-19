@@ -1,144 +1,118 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing.Imaging;
-using System.Runtime.InteropServices;
-using SharpDX;
-using SharpDX.Direct2D1;
-using SharpDX.DXGI;
 using SharpDX.Core;
-using SharpDX.Direct2D1.Effects;
 using SharpDX.DirectInput;
 using SharpDX.Mathematics.Interop;
-using GameManager;
-using GameManager.Components;
-using GameSpace;
-using AlphaMode = SharpDX.Direct2D1.AlphaMode;
-using Bitmap = SharpDX.Direct2D1.Bitmap;
-using PixelFormat = SharpDX.Direct2D1.PixelFormat;
-using Transform = GameManager.Components.Transform;
+using ECS;
+using ECS.Colliders.Components;
+using ECS.Movement.Components;
+using Leopotam.Ecs;
+using SharpDX;
 
 namespace Direct2d
 {
     public class Program : Direct2D1DemoApp
     {
-        private const float Speed = 100f;
         private DirectInput _directInput;
         private Keyboard _keyboard;
-        private KeyboardState _keyboardState;
-        
-        private Scene _scene;
-        private GameObject _player;
-        
+        private KeyboardState _previousKeyboardState;
+        private KeyboardState _currentKeyboardState;
+
+        private MainWorld _maineWorld;
+        private EcsEntity _entity;
+        private EcsEntity _isVisibleColliderEntity;
+
+
         protected override void Initialize(DemoConfiguration demoConfiguration)
         {
             base.Initialize(demoConfiguration);
-            _scene = new Scene();
+
+            //========================== ECS ==========================
+
+            _maineWorld = new MainWorld();
+
+            _entity = _maineWorld.World.NewEntity();
+            _entity.Get<MoveInputComponent>().MoveInput = new Vector2(0, 0);
+
+            _isVisibleColliderEntity = _maineWorld.World.NewEntity();
+            _isVisibleColliderEntity.Get<IsVisibleComponent>().IsVisibleColliders = true;
+
+            _maineWorld.GameInitSystems();
+            _maineWorld.RenderInitSystems(RenderTarget2D);
+
+            //=========================================================
 
             // Инициализация клавиатуры
             _directInput = new DirectInput();
             _keyboard = new Keyboard(_directInput);
             _keyboard.Acquire();
-            
-            //===================================================================================================
-            // ДОБАВИТЬ СЛУЧАЙНЫЕ БЛОКИ НА КАРТУ ДЛЯ ТЕСТА
-            Map map = new Map(40, 30, RenderTarget2D.PixelSize.Width, RenderTarget2D.PixelSize.Height);
-            var gameObjectSpritePath = "block.png";
-            Random random = new Random();
-            List<GameObject> gameObjects = new List<GameObject>();
-
-            for (int i = 0; i < 5; i++)
-            {
-                int x = random.Next(0, map.MapRectangles.GetLength(0));
-                int y = random.Next(0, map.MapRectangles.GetLength(1));
-
-                var rect = map.MapRectangles[x, y];
-
-                var gameObject = new GameObject(new Transform(rect.Position, rect.Size, new Vector2(1, 0)), gameObjectSpritePath);
-                gameObject.AddComponent(new BoxCollider(Vector2.Zero, rect.Size));
-                gameObjects.Add(gameObject);
-            }
-
-            _scene.AddGameObjectRange(gameObjects);
-            //===================================================================================================
-
-            //====================== INITIALIZE SETTINGS GAME ======================
-
-            var settingsGame = new SettingGame()
-            {
-                SpeedPlayer = 300f,
-                MovePlayerSound = "movePlayer.wav",
-                BulletSpeed = 100f,
-            };
-            
-            //====================== INITIALIZE BULLET PREFAB ======================
-            var bulletSpritePath = "sharpdx.png";
-            var bulletPrefab = new GameObject(
-                new Transform(new Vector2(0, 0), new Vector2(30, 30), new Vector2(0, 0)), 
-                bulletSpritePath);
-            bulletPrefab.AddComponent<Bullet>().Construct(settingsGame);
-            
-            //====================== INITIALIZE GUN PREFAB ======================
-            var gunSpritePath = "sharpdx.png";
-            var gunPrefab = new GameObject(
-                new Transform(new Vector2(0, 0), new Vector2(30, 30), new Vector2(0, 0)), 
-                gunSpritePath);
-            gunPrefab.AddComponent<Gun>().Construct(settingsGame, bulletPrefab);
-            _scene.AddGameObject(gunPrefab);
-            
-            //====================== INITIALIZE PLAYER ======================
-            var playerSpritePath = "sharpdx.png";
-            _player = new GameObject(
-                new Transform(new Vector2(100, 100), new Vector2(50, 50), new Vector2(0, 0)),
-                playerSpritePath);
-            _player.AddComponent(new Player()).Construct(settingsGame, gunPrefab);
-            _scene.AddGameObject(_player);
         }
 
         protected override void Update(DemoTime time)
         {
             base.Update(time);
-            Time.DeltaTime = FrameDelta;
+            Settings.Settings.DeltaTime = FrameDelta;
 
             // Обновить состояние клавиатуры
-            _keyboardState = _keyboard.GetCurrentState();
-            if (_keyboardState == null)
-                return;
-            
+            UpdateInput();
+
+
             float horizontal = 0f;
             float vertical = 0f;
-            
+
             // Управление игроком (WASD)
-            if (_keyboardState.IsPressed(Key.W))
+            if (_currentKeyboardState.IsPressed(Key.W))
                 vertical = -1;
-            if (_keyboardState.IsPressed(Key.S))
+            if (_currentKeyboardState.IsPressed(Key.S))
                 vertical = 1;
-            if (_keyboardState.IsPressed(Key.A))
+            if (_currentKeyboardState.IsPressed(Key.A))
                 horizontal = -1;
-            if (_keyboardState.IsPressed(Key.D))
+            if (_currentKeyboardState.IsPressed(Key.D))
                 horizontal = 1;
 
-            
-            var playerComponent = _player.GetComponent<Player>();
-            
-            if (playerComponent != null)
+            // Вкл/Выкл колайдеры
+            if (IsKeyJustPressed(Key.C))
             {
-                if (_keyboardState.IsPressed(Key.Space)) 
-                    playerComponent.Fire();
-                playerComponent.MoveInput(new Vector2(horizontal, vertical));
+                ref var isVisComp = ref _isVisibleColliderEntity.Get<IsVisibleComponent>();
+                isVisComp.IsVisibleColliders = !isVisComp.IsVisibleColliders;
             }
-            
-            _scene.UpdateGameObjects();
+
+            Vector2 direction = new Vector2(horizontal, vertical);
+
+            if (direction.LengthSquared() > 0)
+                direction = Vector2.Normalize(direction);
+
+            ref var moveInputComponent = ref _entity.Get<MoveInputComponent>();
+            moveInputComponent.MoveInput = direction;
+
+            _maineWorld.GameRun();
         }
-
-
         protected override void Draw(DemoTime time)
         {
             base.Draw(time);
-            // Черный фон
             RenderTarget2D.Clear(new RawColor4(0, 0, 0, 1));
-            //Console.WriteLine($"RenderTarget2D.PixelSize: {RenderTarget2D.PixelSize}");
-            
-            _scene.DrawScene(RenderTarget2D);
+
+            _maineWorld.RenderRun();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _maineWorld.Destroy();
+
+            base.Dispose(disposing);
+        }
+
+        private void UpdateInput()
+        {
+            _previousKeyboardState = _currentKeyboardState;
+            _currentKeyboardState = _keyboard.GetCurrentState();
+
+            if (_previousKeyboardState == null || _currentKeyboardState == null)
+                return;
+        }
+
+        private bool IsKeyJustPressed(Key key)
+        {
+            return _currentKeyboardState.IsPressed(key) && !_previousKeyboardState.IsPressed(key);
         }
 
         [STAThread]
