@@ -1,1 +1,1 @@
-Курсовой проект. ECS Framevorke
+Курсовой проект. ECS Framevorke, C#, DirectX, 2D.
