@@ -1,0 +1,9 @@
+t t t t t t t t t t t t
+l z 0 0 0 0 0 0 0 0 z r
+l 0 0 0 0 0 0 0 0 0 0 r
+l 0 0 0 0 0 0 0 0 0 0 r
+l 0 0 0 0 0 0 0 0 0 0 r
+l 0 0 0 0 0 0 0 0 0 0 r
+l 0 0 0 0 0 0 0 0 0 0 r
+l z 0 0 0 0 0 0 0 0 z r
+b b b b b b b b b b b b

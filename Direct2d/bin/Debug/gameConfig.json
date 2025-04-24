@@ -1,0 +1,9 @@
+{
+  "EnemyCount": 1,
+  "SpawnInterval": 2.0,
+  "EnemyTypes": [
+    "foo",
+    "bar",
+    "baz"
+  ]
+}

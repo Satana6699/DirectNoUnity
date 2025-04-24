@@ -1,7 +1,7 @@
 using ECS.Colliders.Components;
 using ECS.Draw.Component;
-using ECS.Временные_наброски.Components;
 using Leopotam.Ecs;
+using Settings;
 
 namespace ECS.Init
 {
@@ -17,7 +17,7 @@ namespace ECS.Init
                 ref var entity = ref _filter.GetEntity(i);
 
                 collider.IsVisible = true;
-                entity.Get<SpriteColliderComponent>().SpritePath = "Sprites/collider.png";
+                entity.Get<SpriteColliderComponent>().SpritePath = DataPath.SpriteColliderPath;
             }
         }
     }

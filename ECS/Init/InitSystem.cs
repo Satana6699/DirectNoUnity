@@ -1,10 +1,14 @@
 using ECS.Colliders.Components;
-using ECS.Draw;
 using ECS.Draw.Component;
+using ECS.Game.Gun.Components;
+using ECS.MonsterFabric.Components;
 using ECS.Movement.Components;
-using ECS.Временные_наброски.Components;
+using ECS.UI.Components;
 using Leopotam.Ecs;
+using Settings;
 using SharpDX;
+using SharpDX.Direct2D1;
+using SharpDX.Mathematics.Interop;
 
 namespace ECS.Init
 {
@@ -12,51 +16,57 @@ namespace ECS.Init
     {
         private readonly EcsWorld _world;
         private readonly EcsFilter<MoveInputComponent> _moveFilter;
+        private readonly EcsFilter<RenderTargetComponent> _renderTargetFilter;
 
         public void Init()
         {
-            InitPlayer();
-            InitBlocks();
+            InitCore();
+            InitHealthBar();
+
+            var entity = _world.NewEntity();
+            ref var monsterFabricComponent = ref entity.Get<MonsterFabricComponent>();
+            monsterFabricComponent.DifficultyFactor = 1;
+            monsterFabricComponent.WaveCooldown = 5f;
+            monsterFabricComponent.CurrentCooldown = 5f;
+            monsterFabricComponent.EnemiesPerWave = 5;
+
         }
 
-        private void InitBlocks()
+        private void InitCore()
         {
-            var block = _world.NewEntity();
-            ref var transformComponent = ref block.Get<TransformComponent>();
+            var entity = _world.NewEntity();
+            entity.Get<MoveInputComponent>().MoveInput = new Vector2(0, 0);
 
-            transformComponent.Position = new Vector2(400, 200);
-            transformComponent.Scale = new Vector2(100, 100);
-
-            ref var colliderComponent = ref block.Get<ColliderComponent>();
-
-            colliderComponent.OffsetPosition = new Vector2(0, 0);
-            colliderComponent.Scale = new Vector2(100, 100);
-
-            string blockSpritePath = "Sprites/block.png";
-            block.Get<SpriteComponent>().SpritePath = blockSpritePath;
-
-            block.Get<StaticComponent>();
+            var isVisibleColliderEntity = _world.NewEntity();
+            isVisibleColliderEntity.Get<IsVisibleComponent>().IsVisibleColliders = true;
         }
 
-        private void InitPlayer()
+        private void InitHealthBar()
         {
-            foreach (int i in _moveFilter)
+            var backgroundEntity = _world.NewEntity();
+            var healthBarEntity = _world.NewEntity();
+
+            ref var backgroundTransform = ref backgroundEntity.Get<TransformComponent>();
+            backgroundTransform.Position = new Vector2(50, 50);
+            backgroundTransform.Size = new Vector2(200, 50);
+
+            ref var healthBarTransform = ref healthBarEntity.Get<TransformComponent>();
+            healthBarTransform.Position = new Vector2(50, 50);
+            healthBarTransform.Size = new Vector2(200, 50);
+
+            foreach (int i in _renderTargetFilter)
             {
-                ref var entityPlayer = ref _moveFilter.GetEntity(i);
-                ref var transformComponent = ref entityPlayer.Get<TransformComponent>();
-
-                transformComponent.Position = new Vector2(200, 200);
-                transformComponent.Scale = new Vector2(100, 100);
-
-                ref var colliderComponent = ref entityPlayer.Get<ColliderComponent>();
-
-                colliderComponent.OffsetPosition = new Vector2(0, 0);
-                colliderComponent.Scale = new Vector2(100, 100);
-
-                string playerSpritePath = "Sprites/Player.png";
-                entityPlayer.Get<SpriteComponent>().SpritePath = playerSpritePath;
-
-                entityPlayer.Get<PlayerComponent>().Speed = 100f;
+                ref var renderTargetComponent = ref _renderTargetFilter.Get1(i);
+                /*ref var backgroundRectangleColorComponent = ref backgroundEntity.Get<PlayerHealthBar>();
+                backgroundEntity.Get<UiComponent>();
+                backgroundRectangleColorComponent.ColorBrush = new SolidColorBrush(
+                    renderTargetComponent.RenderTarget, new RawColor4(1.0f, 0.0f, 0.0f, 1f));
+                backgroundRectangleColorComponent.Fill = 1f;*/
+                ref var healthBarRectangleColorComponent = ref healthBarEntity.Get<PlayerHealthBar>();
+                healthBarEntity.Get<UiComponent>();
+                healthBarRectangleColorComponent.ColorBrush = new SolidColorBrush(
+                    renderTargetComponent.RenderTarget, new RawColor4(1.0f, 0.0f, 0.0f, 1f));
+                healthBarRectangleColorComponent.Fill = 1f;
             }
         }
     }

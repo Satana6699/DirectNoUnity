@@ -1,6 +1,7 @@
 using ECS.Draw;
 using ECS.Draw.Component;
 using ECS.Movement.Components;
+using ECS.UI.Components;
 using Leopotam.Ecs;
 using SharpDX;
 using SharpDX.Direct2D1;
@@ -26,14 +27,13 @@ namespace ECS.Init
             _world.NewEntity().Get<RenderTargetComponent>().RenderTarget = _renderTarget;
 
             InitText();
-
-
         }
 
         private void InitText()
         {
             var entity = _world.NewEntity();
             ref var textComponent = ref entity.Get<TextDrawingComponent>();
+            entity.Get<UiComponent>();
             textComponent.Font = "Arial";
             textComponent.DirectWriteFactory = new DWriteFactory();
             textComponent.TextFormat = new TextFormat(textComponent.DirectWriteFactory, textComponent.Font, 20f);
@@ -42,7 +42,7 @@ namespace ECS.Init
             entity.Get<TextComponent>().Text = "InitDrawSystem";
             ref var transformComponent = ref entity.Get<TransformComponent>();
             transformComponent.Position = new Vector2(10, 10);
-            transformComponent.Scale = new Vector2(800, 600);
+            transformComponent.Size = new Vector2(900, 600);
         }
     }
 }

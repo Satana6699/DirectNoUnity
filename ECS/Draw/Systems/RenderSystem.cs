@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 using ECS.Colliders.Components;
 using ECS.Draw.Component;
 using ECS.Movement.Components;
-using ECS.Временные_наброски.Components;
+using ECS.UI.Components;
 using Leopotam.Ecs;
 using SharpDX;
 using SharpDX.Direct2D1;
@@ -22,15 +22,15 @@ namespace ECS.Draw.Systems
         private readonly EcsFilter<SpriteComponent, TransformComponent> _filterSprite;
         private readonly EcsFilter<SpriteColliderComponent, ColliderComponent, TransformComponent> _colliderSpriteFilter;
         private readonly EcsFilter<RenderTargetComponent> _folterRenderTarget;
-
+        private readonly EcsFilter<TransformComponent, PlayerHealthBar> _filterRectangle;
 
         public void Run()
         {
-            foreach (var i in _folterRenderTarget)
+            foreach (int i in _folterRenderTarget)
             {
                 ref var renderTargetComponent = ref _folterRenderTarget.Get1(i);
 
-                foreach (var j in _filterSprite)
+                foreach (int j in _filterSprite)
                 {
                     ref var spriteComponent = ref _filterSprite.Get1(j);
                     ref var transformComponent = ref _filterSprite.Get2(j);
@@ -39,12 +39,12 @@ namespace ECS.Draw.Systems
                             renderTargetComponent.RenderTarget, spriteComponent.SpritePath),
                         new RawRectangleF(
                             transformComponent.Position.X, transformComponent.Position.Y,
-                            transformComponent.Position.X + transformComponent.Scale.X,
-                            transformComponent.Position.Y + transformComponent.Scale.Y),
+                            transformComponent.Position.X + transformComponent.Size.X,
+                            transformComponent.Position.Y + transformComponent.Size.Y),
                         1.0f, BitmapInterpolationMode.Linear);
                 }
 
-                foreach (var j in _colliderSpriteFilter)
+                foreach (int j in _colliderSpriteFilter)
                 {
                     ref var spriteComponent = ref _colliderSpriteFilter.Get1(j);
                     ref var colliderComponent = ref _colliderSpriteFilter.Get2(j);
@@ -63,6 +63,19 @@ namespace ECS.Draw.Systems
                             transformComponent.Position.X + colliderComponent.OffsetPosition.X + colliderComponent.Scale.X,
                             transformComponent.Position.Y + colliderComponent.OffsetPosition.Y + colliderComponent.Scale.Y),
                         1.0f, BitmapInterpolationMode.Linear);
+                }
+
+                foreach (int j in _filterRectangle)
+                {
+                    ref var transformComponent = ref _filterRectangle.Get1(j);
+                    ref var colorComponent = ref _filterRectangle.Get2(j);
+
+                    renderTargetComponent.RenderTarget.FillRectangle(
+                        new RawRectangleF(
+                            transformComponent.Position.X, transformComponent.Position.Y,
+                            transformComponent.Position.X + transformComponent.Size.X * colorComponent.Fill,
+                            transformComponent.Position.Y + transformComponent.Size.Y),
+                        colorComponent.ColorBrush);
                 }
             }
         }

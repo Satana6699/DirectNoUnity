@@ -8,8 +8,8 @@
         <ProjectGuid>{9E8E5591-D7B2-4AF9-961C-E8308CE0C558}</ProjectGuid>
         <OutputType>Exe</OutputType>
         <AppDesignerFolder>Properties</AppDesignerFolder>
-        <RootNamespace>Direct2d_15._02</RootNamespace>
-        <AssemblyName>Direct2d_15._02</AssemblyName>
+        <RootNamespace>Direct2d</RootNamespace>
+        <AssemblyName>Direct2d</AssemblyName>
         <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -112,10 +112,12 @@
         <Reference Include="System.Xml"/>
     </ItemGroup>
     <ItemGroup>
-        <Compile Include="Map.cs" />
+        <Compile Include="ShopManager.cs" />
+        <Compile Include="UIButton.cs" />
+        <Compile Include="GameManager.cs" />
+        <Compile Include="MouseStateSimple.cs" />
         <Compile Include="Program.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
-        <Compile Include="Rectangle.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="App.config" />
@@ -136,16 +138,60 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Sprites\block.png">
+      <Content Include="Data\Json\newGameConfig.json" />
+      <Content Include="Data\Json\saveDataGameConfig.json" />
+      <Content Include="Data\Levels\lvl1.txt">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="Sprites\collider.png">
+      <Content Include="Data\Sprites\Blocks\botBlock.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="Sprites\Player.png">
+      <Content Include="Data\Sprites\Blocks\leftBlock.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-      <Content Include="Sprites\sharpdx.png">
+      <Content Include="Data\Sprites\Blocks\rightBlock.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Blocks\topBlock.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\bullet.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\collider.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\grass.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Player\Player.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Player\playerAttack.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Player\playerGun.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\UI\backgound.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\UI\Button.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\UI\StartButton.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Zombie\zombie.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Zombie\zombie1.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Zombie\zombie2.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sprites\Zombie\zombie3.png">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
     </ItemGroup>

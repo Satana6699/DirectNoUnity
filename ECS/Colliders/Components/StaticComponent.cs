@@ -1,4 +1,4 @@
-namespace ECS.Временные_наброски.Components
+namespace ECS.Colliders.Components
 {
     public struct StaticComponent
     {

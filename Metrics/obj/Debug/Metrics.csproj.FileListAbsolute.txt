@@ -1,0 +1,16 @@
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\Metrics.exe
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\Metrics.pdb
+D:\Work\DotNet\DirectECS\Metrics\obj\Debug\Metrics.csproj.AssemblyReference.cache
+D:\Work\DotNet\DirectECS\Metrics\obj\Debug\Metrics.csproj.CoreCompileInputs.cache
+D:\Work\DotNet\DirectECS\Metrics\obj\Debug\Metrics.exe
+D:\Work\DotNet\DirectECS\Metrics\obj\Debug\Metrics.pdb
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\Metrics.exe.config
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.Direct2D1.dll
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.dll
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.DXGI.dll
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.pdb
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.Direct2D1.pdb
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.Direct2D1.xml
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.DXGI.pdb
+D:\Work\DotNet\DirectECS\Metrics\bin\Debug\SharpDX.DXGI.xml
+D:\Work\DotNet\DirectECS\Metrics\obj\Debug\Metrics.csproj.Up2Date

@@ -4,3 +4,6 @@ D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.csproj.AssemblyReference.ca
 D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.csproj.CoreCompileInputs.cache
 D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.dll
 D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.pdb
+D:\Work\DotNet\DirectECS\Settings\bin\Debug\Newtonsoft.Json.dll
+D:\Work\DotNet\DirectECS\Settings\bin\Debug\Newtonsoft.Json.xml
+D:\Work\DotNet\DirectECS\Settings\obj\Debug\Settings.csproj.Up2Date

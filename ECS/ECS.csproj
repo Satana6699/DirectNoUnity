@@ -43,6 +43,9 @@
         <Reference Include="SharpDX.Direct2D1, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
           <HintPath>..\packages\SharpDX.Direct2D1.4.2.0\lib\net45\SharpDX.Direct2D1.dll</HintPath>
         </Reference>
+        <Reference Include="SharpDX.DirectInput, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+          <HintPath>..\packages\SharpDX.DirectInput.4.2.0\lib\net45\SharpDX.DirectInput.dll</HintPath>
+        </Reference>
         <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
           <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
         </Reference>
@@ -62,7 +65,9 @@
         <Compile Include="Colliders\Components\ColliderComponent.cs" />
         <Compile Include="Colliders\Components\IsVisibleComponent.cs" />
         <Compile Include="Colliders\Components\StaticComponent.cs" />
+        <Compile Include="Colliders\Systems\CheckBulletCollisionSystem.cs" />
         <Compile Include="Colliders\Systems\CheckCollisionSystem.cs" />
+        <Compile Include="Colliders\Systems\UpdateIsVisibleComponentsSystem.cs" />
         <Compile Include="Draw\Component\RenderTargetComponent.cs" />
         <Compile Include="Draw\Component\SpriteColliderComponent.cs" />
         <Compile Include="Draw\Component\SpriteComponent.cs" />
@@ -71,15 +76,47 @@
         <Compile Include="Draw\Systems\DisposeRenderTextSystem.cs" />
         <Compile Include="Draw\Systems\RenderSystem.cs" />
         <Compile Include="Draw\Systems\RenderTextSystem.cs" />
+        <Compile Include="Game\Enemy\FollowPlayerSystem.cs" />
+        <Compile Include="Game\Enemy\ZombieComponent.cs" />
+        <Compile Include="Game\Gun\Components\BulletComponent.cs" />
+        <Compile Include="Game\Gun\Components\GunComponent.cs" />
+        <Compile Include="Game\Gun\Systems\GunPiuSystem.cs" />
+        <Compile Include="Game\Health\Components\DamageEvent.cs" />
+        <Compile Include="Game\Health\Components\DamagedEvent.cs" />
+        <Compile Include="Game\Health\Components\DeadEvent.cs" />
+        <Compile Include="Game\Health\Components\HealthComponent.cs" />
+        <Compile Include="Game\Health\Systems\DamagedSystem.cs" />
+        <Compile Include="Game\Health\Systems\DeadSystem.cs" />
+        <Compile Include="Game\Health\Systems\TakeDamageSystem.cs" />
         <Compile Include="Init\InitCollidersSystem.cs" />
         <Compile Include="Init\InitDrawSystem.cs" />
         <Compile Include="Init\InitSystem.cs" />
+        <Compile Include="Keyboard\InputComponent.cs" />
+        <Compile Include="Keyboard\KeyboardSystem.cs" />
+        <Compile Include="Keyboard\MouseSystem.cs" />
+        <Compile Include="LevelLoader\LevelComponent.cs" />
+        <Compile Include="LevelLoader\LevelGenerateSystem.cs" />
         <Compile Include="MainWorld.cs" />
+        <Compile Include="MonsterFabric\Components\ActivatedSpawnerEvent.cs" />
+        <Compile Include="MonsterFabric\Components\MonsterFabricComponent.cs" />
+        <Compile Include="MonsterFabric\Components\SpawnPointEnemyComponent.cs" />
+        <Compile Include="MonsterFabric\Components\UpdateDifficultyComponent.cs" />
+        <Compile Include="MonsterFabric\Systems\DifficultyFactorWaveSystem.cs" />
+        <Compile Include="MonsterFabric\Systems\SpawnMonsterSystem.cs" />
+        <Compile Include="MonsterFabric\Systems\TimerWaveSystem.cs" />
+        <Compile Include="MonsterFabric\Systems\WaveSystem.cs" />
         <Compile Include="Movement\Components\MoveInputComponent.cs" />
         <Compile Include="Movement\Components\PlayerComponent.cs" />
         <Compile Include="Movement\Components\TransformComponent.cs" />
+        <Compile Include="Movement\Components\VelocityComponent.cs" />
         <Compile Include="Movement\Systems\MovementSystem.cs" />
+        <Compile Include="Movement\Systems\PlayerVelocitySystem.cs" />
         <Compile Include="Properties\AssemblyInfo.cs"/>
+        <Compile Include="UI\Components\PlayerHealthBar.cs" />
+        <Compile Include="UI\Components\UiComponent.cs" />
+        <Compile Include="Временные наброски\Components\PauseComponent.cs" />
+        <Compile Include="Временные наброски\Systems\MapMoveSystem.cs" />
+        <Compile Include="Временные наброски\Systems\PauseSystem.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />
@@ -92,8 +129,6 @@
     </ItemGroup>
     <ItemGroup>
       <Folder Include="Init\Components\" />
-      <Folder Include="Временные наброски\Components\" />
-      <Folder Include="Временные наброски\Systems\" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets"/>
     <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

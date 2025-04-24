@@ -1,0 +1,17 @@
+{
+  "Player": {
+    "Speed": 1000.0,
+    "Health": 100.0
+  },
+  "Zombie": {
+    "Speed": 750.0,
+    "Health": 21.0,
+    "Damage": 0.0001
+  },
+  "BulletSpeed": 3000.0,
+  "Coins": 10008.0,
+  "GunDamage": 5.0,
+  "PlayerHealthLevel": 1,
+  "PlayerDamageLevel": 0,
+  "PlayerSpeedLevel": 0
+}

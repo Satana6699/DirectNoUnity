@@ -19,3 +19,8 @@ D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.DXGI.pdb
 D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.DXGI.xml
 D:\Work\DotNet\DirectECS\ECS\bin\Debug\Settings.dll
 D:\Work\DotNet\DirectECS\ECS\bin\Debug\Settings.pdb
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.DirectInput.dll
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.DirectInput.pdb
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.DirectInput.xml
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\Newtonsoft.Json.dll
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\Newtonsoft.Json.xml

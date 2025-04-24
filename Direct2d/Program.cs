@@ -3,10 +3,8 @@ using SharpDX.Core;
 using SharpDX.DirectInput;
 using SharpDX.Mathematics.Interop;
 using ECS;
-using ECS.Colliders.Components;
-using ECS.Movement.Components;
-using Leopotam.Ecs;
-using SharpDX;
+using System.Runtime.InteropServices;
+using Settings;
 
 namespace Direct2d
 {
@@ -14,105 +12,100 @@ namespace Direct2d
     {
         private DirectInput _directInput;
         private Keyboard _keyboard;
-        private KeyboardState _previousKeyboardState;
-        private KeyboardState _currentKeyboardState;
 
         private MainWorld _maineWorld;
-        private EcsEntity _entity;
-        private EcsEntity _isVisibleColliderEntity;
 
+        // Мышь
+        private Mouse _mouse;
+        private int _mouseX = 0;
+        private int _mouseY = 0;
+        [DllImport("user32.dll")]
+        private static extern bool GetCursorPos(out POINT lpPoint);
+
+        [DllImport("user32.dll")]
+        private static extern bool ScreenToClient(IntPtr hWnd, ref POINT lpPoint);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int X;
+            public int Y;
+        }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetActiveWindow();
+
+        // Кнопки
+        private GameManager _gameManager;
 
         protected override void Initialize(DemoConfiguration demoConfiguration)
         {
             base.Initialize(demoConfiguration);
 
-            //========================== ECS ==========================
-
-            _maineWorld = new MainWorld();
-
-            _entity = _maineWorld.World.NewEntity();
-            _entity.Get<MoveInputComponent>().MoveInput = new Vector2(0, 0);
-
-            _isVisibleColliderEntity = _maineWorld.World.NewEntity();
-            _isVisibleColliderEntity.Get<IsVisibleComponent>().IsVisibleColliders = true;
-
-            _maineWorld.GameInitSystems();
-            _maineWorld.RenderInitSystems(RenderTarget2D);
-
-            //=========================================================
-
-            // Инициализация клавиатуры
+            //========= Инициализация клавиатуры ================================
             _directInput = new DirectInput();
             _keyboard = new Keyboard(_directInput);
             _keyboard.Acquire();
+
+            //========= Инициализация мыши ======================================
+            _mouse = new Mouse(_directInput);
+            _mouse.Acquire();
+
+            //========= Создание кнопки =========================================
+
+            _gameManager = new GameManager(RenderTarget2D, _keyboard, _mouse, Exit);
         }
 
         protected override void Update(DemoTime time)
         {
             base.Update(time);
-            Settings.Settings.DeltaTime = FrameDelta;
+            Time.DeltaTime = FrameDelta;
 
-            // Обновить состояние клавиатуры
-            UpdateInput();
+            GetCursorPos(out POINT point);
+            ScreenToClient(GetActiveWindow(), ref point);
 
+            _mouseX = point.X;
+            _mouseY = point.Y;
 
-            float horizontal = 0f;
-            float vertical = 0f;
-
-            // Управление игроком (WASD)
-            if (_currentKeyboardState.IsPressed(Key.W))
-                vertical = -1;
-            if (_currentKeyboardState.IsPressed(Key.S))
-                vertical = 1;
-            if (_currentKeyboardState.IsPressed(Key.A))
-                horizontal = -1;
-            if (_currentKeyboardState.IsPressed(Key.D))
-                horizontal = 1;
-
-            // Вкл/Выкл колайдеры
-            if (IsKeyJustPressed(Key.C))
+            var simpleState = new MouseStateSimple
             {
-                ref var isVisComp = ref _isVisibleColliderEntity.Get<IsVisibleComponent>();
-                isVisComp.IsVisibleColliders = !isVisComp.IsVisibleColliders;
+                X = _mouseX,
+                Y = _mouseY,
+                LeftButton = _mouse.GetCurrentState().Buttons[0]
+            };
+
+            if (_gameManager.Keyboard != null &&
+                _gameManager != null &&
+                _gameManager.Keyboard.GetCurrentState().IsPressed(Key.Escape))
+            {
+                _gameManager.MaineWorld?.EndGame();
+                _gameManager.MaineWorld = null;
+                _gameManager.ExitShop();
             }
 
-            Vector2 direction = new Vector2(horizontal, vertical);
+            foreach (var button in _gameManager.ButtonsMenu)
+                button.Value.HandleClick(simpleState);
 
-            if (direction.LengthSquared() > 0)
-                direction = Vector2.Normalize(direction);
-
-            ref var moveInputComponent = ref _entity.Get<MoveInputComponent>();
-            moveInputComponent.MoveInput = direction;
-
-            _maineWorld.GameRun();
+            _gameManager.MaineWorld?.GameRun();
         }
+
         protected override void Draw(DemoTime time)
         {
             base.Draw(time);
             RenderTarget2D.Clear(new RawColor4(0, 0, 0, 1));
 
-            _maineWorld.RenderRun();
+            _gameManager.MaineWorld?.RenderRun();
+
+            foreach (var button in _gameManager.ButtonsMenu)
+                button.Value.Draw(RenderTarget2D);
         }
 
         protected override void Dispose(bool disposing)
         {
-            _maineWorld.Destroy();
+            _gameManager.MaineWorld?.EndGame();
+            _gameManager.MaineWorld = null;
 
             base.Dispose(disposing);
-        }
-
-        private void UpdateInput()
-        {
-            _previousKeyboardState = _currentKeyboardState;
-            _currentKeyboardState = _keyboard.GetCurrentState();
-
-            if (_previousKeyboardState == null || _currentKeyboardState == null)
-                return;
-        }
-
-        private bool IsKeyJustPressed(Key key)
-        {
-            return _currentKeyboardState.IsPressed(key) && !_previousKeyboardState.IsPressed(key);
         }
 
         [STAThread]

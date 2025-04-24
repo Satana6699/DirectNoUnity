@@ -1,25 +1,34 @@
 using ECS.Movement.Components;
 using Leopotam.Ecs;
+using SharpDX;
 
 namespace ECS.Movement.Systems
 {
     public class MovementSystem : IEcsRunSystem
     {
-        private readonly EcsFilter<PlayerComponent, MoveInputComponent, TransformComponent> _playerFilter;
+        private readonly EcsFilter<VelocityComponent, TransformComponent> _playerFilter;
 
         public void Run()
         {
             foreach (int i in _playerFilter)
             {
-                ref var playerComp = ref _playerFilter.Get1(i);
-                ref var moveInputComp = ref _playerFilter.Get2(i);
-                ref var transformComp = ref _playerFilter.Get3(i);
+                ref var velocityComp = ref _playerFilter.Get1(i);
+                ref var transformComp = ref _playerFilter.Get2(i);
 
-                ref float speed = ref playerComp.Speed;
-                ref var moveInput = ref moveInputComp.MoveInput;
+                ref var velocity = ref velocityComp.Velocity;
+
+                if (velocity.LengthSquared() > 0)
+                {
+                    transformComp.ViewDirection = Vector2.Normalize(velocity);
+                }
+
+                if (_playerFilter.GetEntity(i).Has<PlayerComponent>())
+                {
+                    continue;
+                }
+
                 ref var position = ref transformComp.Position;
-                position.X += moveInput.X * speed * Settings.Settings.DeltaTime;
-                position.Y += moveInput.Y * speed * Settings.Settings.DeltaTime;
+                position += velocity * Settings.Time.DeltaTime;
             }
         }
     }
