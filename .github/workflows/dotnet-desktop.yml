@@ -1,0 +1,28 @@
+# .github/workflows/uml.yml
+name: Generate UML
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '4.8'
+
+      - name: Install Generator
+        run: dotnet tool install --global PlantUmlClassDiagramGenerator
+
+      - name: Generate UML
+        run: PlantUmlClassDiagramGenerator --input ./src --output ./diagram.puml
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: UML
+          path: diagram.puml
