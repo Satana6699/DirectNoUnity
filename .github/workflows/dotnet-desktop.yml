@@ -22,7 +22,7 @@ jobs:
         run: PlantUmlClassDiagramGenerator --input ./src --output ./diagram.puml
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v3.1.3
         with:
           name: UML
           path: diagram.puml
