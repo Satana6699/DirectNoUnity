@@ -6,14 +6,9 @@ on:
 
 jobs:
   generate:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v3
-
-      - name: Install .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '7.0.x'
 
       - name: Install Generator
         run: dotnet tool install --global PlantUmlClassDiagramGenerator
@@ -22,7 +17,7 @@ jobs:
         run: PlantUmlClassDiagramGenerator --input ./src --output ./diagram.puml
 
       - name: Upload artifact
-        uses: actions/upload-artifact@3e7f93ce3ca2d3efb5f142114e86028c42d2e464
+        uses: actions/upload-artifact@v3
         with:
           name: UML
           path: diagram.puml
