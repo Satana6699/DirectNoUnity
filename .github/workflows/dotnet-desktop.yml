@@ -22,7 +22,7 @@ jobs:
         run: |
           $Path = "${{ github.workspace }}"
           Write-Host Path: $Path
-          puml-gen --input $Path --output $Path/diagram.puml --recurse
+          puml-gen -i $Path -o $Path/diagram.puml -r
 
       - name: Upload UML diagram
         uses: actions/upload-artifact@v4
