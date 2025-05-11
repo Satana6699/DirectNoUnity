@@ -21,7 +21,7 @@ jobs:
       - name: Generate UML
         run: |
           $Path = "$PWD"
-          puml-gen --input "$Path" --output "$Path/diagram.puml"
+          puml-gen --input "$Path" --output "$Path/diagram.puml" --recurse
 
       - name: Upload UML diagram
         uses: actions/upload-artifact@v4
