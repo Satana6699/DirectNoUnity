@@ -20,7 +20,7 @@ jobs:
 
       - name: Generate UML
         run: |
-          $Path = "${{ github.workspace }}"
+          $Path = ${{ github.workspace }}
           puml-gen --input $Path --output $Path/diagram.puml --recurse
 
       - name: Upload UML diagram
