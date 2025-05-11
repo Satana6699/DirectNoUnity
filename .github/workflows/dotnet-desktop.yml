@@ -7,16 +7,23 @@ on:
 jobs:
   generate:
     runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Install Generator
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install .NET tool (PlantUmlClassDiagramGenerator)
         run: dotnet tool install --global PlantUmlClassDiagramGenerator
 
-      - name: Generate UML
-        run: puml-gen --input . --output ./diagram.puml
+      - name: Debug — list all C# files
+        run: Get-ChildItem -Recurse -Filter *.cs
 
-      - name: Upload artifact
+      - name: Generate UML
+        run: |
+          $Path = "$PWD"
+          puml-gen --input "$Path" --output "$Path/diagram.puml"
+
+      - name: Upload UML diagram
         uses: actions/upload-artifact@v4
         with:
           name: UML
