@@ -1,8 +1,10 @@
-﻿using ECS.Colliders.Components;
+﻿using System.Threading.Tasks;
+using ECS.Colliders.Components;
 using ECS.Draw.Component;
 using ECS.Game.Gun.Components;
 using ECS.Keyboard;
 using ECS.Movement.Components;
+using ECS.Sound;
 using Leopotam.Ecs;
 using Settings;
 using SharpDX;
@@ -12,7 +14,7 @@ namespace ECS.Game.Gun.Systems
     public class GunPiuSystem : IEcsRunSystem
     {
         private readonly EcsFilter<InputComponent> _keyboardFilter;
-        private readonly EcsFilter<GunComponent, TransformComponent> _gunFilter;
+        private readonly EcsFilter<GunComponent, TransformComponent, SoundComponent> _gunFilter;
         private readonly EcsWorld _world;
         private readonly GameConfig _gameConfig;
 
@@ -28,6 +30,7 @@ namespace ECS.Game.Gun.Systems
                     {
                         ref var gun = ref _gunFilter.Get1(j);
                         ref var transform = ref _gunFilter.Get2(j);
+                        ref var sound = ref _gunFilter.Get3(j);
 
                         var bulletEntity = _world.NewEntity();
                         bulletEntity.Get<BulletComponent>().Damage = _gameConfig.GunDamage;
@@ -53,6 +56,16 @@ namespace ECS.Game.Gun.Systems
 
                         colliderComponent.OffsetPosition = new Vector2(0, 0);
                         colliderComponent.Scale = new Vector2(30, 30);
+
+                        var xaudio = sound.XAudio2;
+
+                        var filePath = sound.FilePath;
+
+                        Task.Run( async () =>
+                        {
+                            await SoundComponent.PlaySoundFileAsync(xaudio, filePath);
+                        });
+
                     }
                 }
             }

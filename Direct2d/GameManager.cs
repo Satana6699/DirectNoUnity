@@ -13,7 +13,7 @@ namespace Direct2d
     public class GameManager
     {
         public Dictionary<string, UIButton> ButtonsMenu = new Dictionary<string, UIButton>();
-        public string[] menuItems = new string[] { "Start", "Exit", "RestartSavedData", "Shop" };
+        public string[] menuItems = new string[] { "Start", "Exit", "RestartSavedData", "Shop", "Background" };
         public string[] shopItems = new string[] { "DamageUp", "HealthUp", "SpeedUp", "ExitShop" };
         public MainWorld MaineWorld;
         public Keyboard Keyboard;

@@ -138,9 +138,13 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-      <Content Include="Data\Json\newGameConfig.json" />
-      <Content Include="Data\Json\saveDataGameConfig.json" />
       <Content Include="Data\Levels\lvl1.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sounds\piu.wav">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Data\Sounds\musik.wav">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
       <Content Include="Data\Sprites\Blocks\botBlock.png">

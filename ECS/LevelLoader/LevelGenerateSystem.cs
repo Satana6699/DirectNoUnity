@@ -6,9 +6,11 @@ using ECS.Game.Health;
 using ECS.Game.Health.Components;
 using ECS.MonsterFabric.Components;
 using ECS.Movement.Components;
+using ECS.Sound;
 using Leopotam.Ecs;
 using Settings;
 using SharpDX;
+using SharpDX.XAudio2;
 
 namespace ECS.LevelLoader
 {
@@ -125,6 +127,11 @@ namespace ECS.LevelLoader
                 entityPlayer.Get<GunComponent>().BulletSpeed = _gameConfig.BulletSpeed;
                 entityPlayer.Get<VelocityComponent>().Velocity = new Vector2(0, 0);
                 entityPlayer.Get<HealthComponent>().MaxValue = _gameConfig.Player.Health;
+
+                ref var soundComponent = ref entityPlayer.Get<SoundComponent>();
+                soundComponent.XAudio2 = new XAudio2();
+                soundComponent.MasteringVoice = new MasteringVoice(soundComponent.XAudio2);
+                soundComponent.FilePath = DataPath.Piu;
             }
         }
 

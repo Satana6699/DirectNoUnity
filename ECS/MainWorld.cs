@@ -11,6 +11,7 @@ using ECS.Keyboard;
 using ECS.LevelLoader;
 using ECS.MonsterFabric.Systems;
 using ECS.Movement.Systems;
+using ECS.Sound;
 using ECS.Временные_наброски.Components;
 using ECS.Временные_наброски.Systems;
 using Leopotam.Ecs;
@@ -73,9 +74,14 @@ namespace ECS
                 Add(new DifficultyFactorWaveSystem()).
                 Add(new TimerWaveSystem()).
                 Add(new SpawnMonsterSystem()).
+
+                // Система дестроя
+                //Add(new SoundDestroySystem()).
                 Inject(_gameConfig).
                 Inject(this).
                 Init();
+
+
         }
 
         public void RenderInitSystems(RenderTarget RenderTarget2D)

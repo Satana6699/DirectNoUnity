@@ -9,7 +9,7 @@
     "Damage": 0.0001
   },
   "BulletSpeed": 3000.0,
-  "Coins": 10008.0,
+  "Coins": 10000.0,
   "GunDamage": 5.0,
   "PlayerHealthLevel": 1,
   "PlayerDamageLevel": 0,

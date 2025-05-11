@@ -20,6 +20,10 @@
         public static readonly string Button = "Data/Sprites/UI/Button.png";
         public static readonly string Background = "Data/Sprites/UI/backgound.png";
 
+        // Sounds
+        public static readonly string BackgroundMusik = "Data/Sounds/musik.wav";
+        public static readonly string Piu = "Data/Sounds/piu.wav";
+
         // Zombie
         public static readonly string SpriteZombiePath = "Data/Sprites/Zombie/zombie.png";
         public static readonly string SpriteZombie1Path = "Data/Sprites/Zombie/zombie1.png";

@@ -1,0 +1,14 @@
+@startuml
+class Player {
+    +int Health
+    +void Move()
+    -void TakeDamage()
+}
+
+class Enemy {
+    +int Damage
+    +void Attack()
+}
+
+Player --> Enemy : attacks
+@enduml

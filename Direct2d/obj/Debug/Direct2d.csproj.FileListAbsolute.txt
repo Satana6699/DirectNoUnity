@@ -173,3 +173,5 @@ D:\Work\DotNet\DirectECS\Direct2d\bin\Debug\Data\Sprites\Zombie\zombie1.png
 D:\Work\DotNet\DirectECS\Direct2d\bin\Debug\Data\Sprites\Zombie\zombie2.png
 D:\Work\DotNet\DirectECS\Direct2d\bin\Debug\Data\Sprites\Zombie\zombie3.png
 D:\Work\DotNet\DirectECS\Direct2d\bin\Debug\Data\Sprites\UI\backgound.png
+D:\Work\DotNet\DirectECS\Direct2d\bin\Debug\Data\Sounds\musik.wav
+D:\Work\DotNet\DirectECS\Direct2d\bin\Debug\Data\Sounds\piu.wav

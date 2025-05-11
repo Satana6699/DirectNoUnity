@@ -1,14 +1,17 @@
+using System.Threading.Tasks;
 using ECS.Colliders.Components;
 using ECS.Draw.Component;
 using ECS.Game.Gun.Components;
 using ECS.MonsterFabric.Components;
 using ECS.Movement.Components;
+using ECS.Sound;
 using ECS.UI.Components;
 using Leopotam.Ecs;
 using Settings;
 using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.Mathematics.Interop;
+using SharpDX.XAudio2;
 
 namespace ECS.Init
 {
@@ -22,14 +25,35 @@ namespace ECS.Init
         {
             InitCore();
             InitHealthBar();
+            InitSpawner();
+            InitMusic();
+        }
 
+        private void InitMusic()
+        {
+            var entity = _world.NewEntity();
+            ref var music = ref entity.Get<SoundComponent>();
+            music.XAudio2 = new XAudio2();
+            music.MasteringVoice = new MasteringVoice(music.XAudio2);
+            music.FilePath = DataPath.BackgroundMusik;
+
+            var xaudio = music.XAudio2;
+            var filePath = music.FilePath;
+
+            Task.Run( async () =>
+            {
+                await SoundComponent.PlaySoundFileAsync(xaudio, filePath, true);
+            });
+        }
+
+        private void InitSpawner()
+        {
             var entity = _world.NewEntity();
             ref var monsterFabricComponent = ref entity.Get<MonsterFabricComponent>();
             monsterFabricComponent.DifficultyFactor = 1;
             monsterFabricComponent.WaveCooldown = 5f;
             monsterFabricComponent.CurrentCooldown = 5f;
             monsterFabricComponent.EnemiesPerWave = 5;
-
         }
 
         private void InitCore()

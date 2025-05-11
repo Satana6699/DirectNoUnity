@@ -24,3 +24,6 @@ D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.DirectInput.pdb
 D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.DirectInput.xml
 D:\Work\DotNet\DirectECS\ECS\bin\Debug\Newtonsoft.Json.dll
 D:\Work\DotNet\DirectECS\ECS\bin\Debug\Newtonsoft.Json.xml
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.XAudio2.dll
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.XAudio2.pdb
+D:\Work\DotNet\DirectECS\ECS\bin\Debug\SharpDX.XAudio2.xml
